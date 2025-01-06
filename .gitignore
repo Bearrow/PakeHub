@@ -1,41 +1,181 @@
-# Compiled Lua sources
-luac.out
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
 
-# luarocks build files
-*.src.rock
-*.zip
-*.tar.gz
+local Window = Fluent:CreateWindow({
+    Title = "Pake Troll Hub",
+    SubTitle = "Ultimate Troll Hub|By Sfc_ivan & Pake_Slipz",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Acrylic = true,
+    Theme = "Dark",
+    MinimizeKey = Enum.KeyCode.LeftControl
+})
 
-# Object files
-*.o
-*.os
-*.ko
-*.obj
-*.elf
+local Tabs = {
+    Main = Window:AddTab({ Title = "Main" }),
+    Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
+}
 
-# Precompiled Headers
-*.gch
-*.pch
+Fluent:Notify({
+    Title = "Notification",
+    Content = "Successfully loaded PakeWare",
+    Duration = 5
+})
 
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-*.def
-*.exp
+Tabs.Main:AddButton({
+    Title = "System Broken",
+    Description = "Runs the System Broken script",
+    Callback = function()
+        loadstring(game:HttpGet("https://github.com/IVAN12312312321321321312321213123/Ivan-s-Executor.new/raw/refs/heads/main/SystemBroken.lua"))()
+    end
+})
 
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
+})
 
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
+Tabs.Main:AddButton({
+    Title = "Eazvy Hub",
+    Description = "Opens Eazvy Hub",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Eazvy/public-scripts/main/Universal_Animations_Emotes.lua"))()
+    end
+})
 
+Tabs.Main:AddButton({
+    Title = "Extend Baseplate",
+    Description = "Extends the baseplate",
+    Callback = function()
+        for X = -10000, 10000, 512 do
+            for Z = -10000, 10000, 512 do
+                local part = Instance.new("Part")
+                part.Anchored = true
+                part.Size = Vector3.new(512, 0, 512)
+                part.CFrame = CFrame.new(X, 0, Z)
+                part.BrickColor = BrickColor.new("Bright Green")
+                part.Material = Enum.Material.SmoothPlastic
+                part.Parent = workspace
+            end
+        end
+    end
+})
+
+Tabs.Main:AddButton({
+    Title = "Activate TP Keybind (T)",
+    Description = "Hold 'T' to teleport behind you.",
+    Callback = function()
+        Fluent:Notify({
+            Title = "Keybind Activated",
+            Content = "Hold 'T' to move backward.",
+            Duration = 5
+        })
+
+        local isTPActive = false
+        local userInputService = game:GetService("UserInputService")
+        local player = game.Players.LocalPlayer
+
+        userInputService.InputBegan:Connect(function(input, processed)
+            if processed then return end
+            if input.KeyCode == Enum.KeyCode.T then
+                isTPActive = true
+                local character = player.Character or player.CharacterAdded:Wait()
+
+                while isTPActive and character do
+                    character:PivotTo(character:GetPivot() + workspace.CurrentCamera.CFrame.LookVector * Vector3.new(1, 0, 1) * -100)
+                    task.wait(0.2)
+                end
+            end
+        end)
+
+        userInputService.InputEnded:Connect(function(input, processed)
+            if processed then return end
+            if input.KeyCode == Enum.KeyCode.T then
+                isTPActive = false
+            end
+        end)
+    end
+})
+
+Tabs.Main:AddButton({
+    Title = "Check Game Support",
+    Description = "Checks if the game is supported",
+    Callback = function()
+        local gameId = game.PlaceId
+        local gameName = game:GetService("MarketplaceService"):GetProductInfo(gameId).Name
+        local content = gameId == 6884319169 and "The game 'MIC-UP' is supported." or "The game '" .. gameName .. "' may not be fully supported!"
+
+        Fluent:Notify({ Title = "Game Support", Content = content, Duration = 5 })
+    end
+})
+
+Tabs.Main:AddButton({
+    Title = "FaceFuck",
+    Description = "To Activate Press Z",
+    Callback = function()
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/EnterpriseExperience/bruhlolw/refs/heads/main/face_bang_script.lua'))()
+    end
+})
+
+Tabs.Main:AddButton({
+    Title = "Side To Side",
+    Description = "To Activate Press G",
+    Callback = function()
+        getgenv().CloneSettings = {
+            Enabled = false,
+            Bind = "G",
+            Value = 15,
+            Delay = 0.05
+        }
+
+        local userInput = game:GetService("UserInputService")
+        local player = game.Players.LocalPlayer
+
+        userInput.InputBegan:Connect(function(input, processed)
+            if processed then return end
+            if input.KeyCode == Enum.KeyCode[getgenv().CloneSettings.Bind] then
+                getgenv().CloneSettings.Enabled = not getgenv().CloneSettings.Enabled
+            end
+        end)
+
+        while task.wait() do
+            if getgenv().CloneSettings.Enabled then
+                local root = player.Character.HumanoidRootPart
+                local oldCFrame = root.CFrame
+
+                root.CFrame = root.CFrame * CFrame.new(-getgenv().CloneSettings.Value, 0, 0)
+                task.wait(getgenv().CloneSettings.Delay)
+                root.CFrame = oldCFrame
+                task.wait(getgenv().CloneSettings.Delay)
+                root.CFrame = root.CFrame * CFrame.new(getgenv().CloneSettings.Value, 0, 0)
+                task.wait(getgenv().CloneSettings.Delay)
+                root.CFrame = oldCFrame
+            end
+        end
+    end
+})
+
+Tabs.Main:AddButton({
+    Title = "Masterbate",
+    Description = "Masterbate GUI",
+    Callback = function()
+        loadstring(game:HttpGet("https://pastebin.com/raw/38Jra00x"))()
+    end
+})
+
+SaveManager:SetLibrary(Fluent)
+InterfaceManager:SetLibrary(Fluent)
+SaveManager:IgnoreThemeSettings()
+InterfaceManager:SetFolder("FluentScriptHub")
+SaveManager:SetFolder("FluentScriptHub/specific-game")
+
+InterfaceManager:BuildInterfaceSection(Tabs.Settings)
+SaveManager:BuildConfigSection(Tabs.Settings)
+
+Window:SelectTab(1)
+
+Fluent:Notify({
+    Title = "PakeWare",
+    Content = "Press left ctrl to close.",
+    Duration = 8
+})
+
+SaveManager:LoadAutoloadConfig()
