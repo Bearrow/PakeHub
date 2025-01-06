@@ -1,22 +1,104 @@
-local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))() -- Retrieve the latest version of 'Fluent' UI Library.
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
+-- Define all of our services here, since we can use 'cloneref' in most executors, we'll choose and decide with 'if statements'.
+local ws
+local Players
+local ReplicatedStorage
+local RunService
+local TweenService
+local UIS
 
+if cloneref then
+    ws = cloneref(game:GetService("Workspace"))
+    Players = cloneref(game:GetService("Players"))
+    ReplicatedStorage = cloneref(game:GetService("ReplicatedStorage"))
+    RunService = cloneref(game:GetService("RunService"))
+    TweenService = cloneref(game:GetService("TweenService"))
+    UIS = cloneref(game:GetService("UserInputService"))
+else
+    ws = game:GetService("Workspace")
+    Players = game:GetService("Players")
+    ReplicatedStorage = game:GetService("ReplicatedStorage")
+    RunService = game:GetService("RunService")
+    TweenService = game:GetService("TweenService")
+    UIS = game:GetService("UserInputService")
+end
+wait(0.1)
+local userInput = UIS
+local userinputservice = UIS
+local UserInputService = UIS
+local uis = UIS
+local userInputService = UIS
+local workspace = ws
+local Workspace = ws
+local WS = ws
+local works = ws
+local LocalPlayer = Players.LocalPlayer
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+local speaker = LocalPlayer
+local player = LocalPlayer
+local lPlayer = LocalPlayer
+local localPlayer = LocalPlayer
+local char = character
+local Humanoid = Character:FindFirstChildWhichIsA("Humanoid") or Character:WaitForChild("Humanoid")
+local humanoid = Humanoid
+local humanoidRootPart = Character:FindFirstChild("HumanoidRootPart") or Character:WaitForChild("HumanoidRootPart")
+local HumanoidRootPart = humanoidRootPart
+local hrp = humanoidRootPart
+local HRP = hrp
+local PlaceId = game.PlaceId
+local JobId = game.JobId
+local function Send_Notification(Title, Content, Sub, Time)
+    if not Title or Title == "" then
+        Title = "Notification:" -- Add something by default if 'Title' remains uncalled.
+    end
+
+    if not Time then
+        Time = 6.5 -- Specify time here differently if not specified when calling the function.
+    end
+
+    Fluent:Notify({
+        Title = tostring(Title),
+        Content = tostring(Content),
+        SubContent = "---", -- Add something else then basic old 'SubContent'.
+        Duration = tonumber(Time)
+    })
+end
+wait(0.1)
 local Window = Fluent:CreateWindow({
     Title = "Pake Troll Hub",
-    SubTitle = "Ultimate Troll Hub|By Sfc_ivan & Pake_Slipz",
+    SubTitle = "Ultimate Troll Hub | By Sfc_ivan & Pake_Slipz",
     TabWidth = 160,
     Size = UDim2.fromOffset(580, 460),
     Acrylic = true,
     Theme = "Dark",
-    MinimizeKey = Enum.KeyCode.LeftControl
+    MinimizeKey = Enum.KeyCode.LeftControl -- You change change this in the script by calling the function below.
 })
+
+local function change_key(key)
+    if Window and Window.MinimizeKey and string.upper(Enum.KeyCode[key]) then
+        Window.MinimizeKey = string.upper(Enum.KeyCode[key])
+    end
+end
 
 local Tabs = {
     Main = Window:AddTab({ Title = "Main" }),
     Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
 }
 
+if ws:FindFirstChild("Parts_Storage_WS") then
+    local Parts_Folder = Instance.new("Folder")
+    Parts_Folder.Name = "Parts_Storage_WS"
+    Parts_Storage_WS.Parent = ws
+else
+    Send_Notification("Alert:", "Folder for parts has already been loaded", 7) -- These are optional but I recommend keeping these for less errors.
+    warn("[DEBUG_OUTPUT]: Parts_Storage_WS - Folder already created | Skipping...")
+end
+wait(0.1)
+local Get_Part_Folder = ws:FindFirstChild("Parts_Storage_WS") -- Make sure the name is correctly defined with uppercases to.
+wait(0.1)
 Fluent:Notify({
     Title = "Notification",
     Content = "Successfully loaded PakeWare",
@@ -24,142 +106,129 @@ Fluent:Notify({
 })
 
 Tabs.Main:AddButton({
-    Title = "System Broken",
-    Description = "Runs the System Broken script",
-    Callback = function()
-        loadstring(game:HttpGet("https://github.com/IVAN12312312321321321312321213123/Ivan-s-Executor.new/raw/refs/heads/main/SystemBroken.lua"))()
-    end
-})
-
-})
+Title = "System Broken",
+Description = "Runs the System Broken script",
+Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/EnterpriseExperience/SystemBroken/refs/heads/main/source"))() -- Better version of System Broken, fixed, cleaned up, smooth drag included [doesn't teleport when dragging].
+end})
 
 Tabs.Main:AddButton({
-    Title = "Eazvy Hub",
-    Description = "Opens Eazvy Hub",
-    Callback = function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/Eazvy/public-scripts/main/Universal_Animations_Emotes.lua"))()
-    end
-})
+Title = "Eazvy Hub",
+Description = "Opens Eazvy Hub",
+Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Eazvy/public-scripts/main/Universal_Animations_Emotes.lua"))()
+end})
 
 Tabs.Main:AddButton({
-    Title = "Extend Baseplate",
-    Description = "Extends the baseplate",
-    Callback = function()
-        for X = -10000, 10000, 512 do
-            for Z = -10000, 10000, 512 do
+Title = "Extend Baseplate",
+Description = "Extends the baseplate",
+Callback = function()
+    for X = -10000, 10000, 512 do
+        for Z = -10000, 10000, 512 do
+            if Get_Part_Folder:FindFirstChild("Mega_Baseplate") or getgenv().Loaded_BasePlate then
+                return Send_Notification("Alert:", "Baseplate has already been loaded!", 7)
+            else
                 local part = Instance.new("Part")
+                part.Name = "Mega_Baseplate"
                 part.Anchored = true
                 part.Size = Vector3.new(512, 0, 512)
                 part.CFrame = CFrame.new(X, 0, Z)
                 part.BrickColor = BrickColor.new("Bright Green")
                 part.Material = Enum.Material.SmoothPlastic
-                part.Parent = workspace
+                part.Parent = Get_Part_Folder
+                getgenv().Loaded_BasePlate = true
             end
         end
     end
-})
+end})
 
 Tabs.Main:AddButton({
-    Title = "Activate TP Keybind (T)",
-    Description = "Hold 'T' to teleport behind you.",
-    Callback = function()
-        Fluent:Notify({
-            Title = "Keybind Activated",
-            Content = "Hold 'T' to move backward.",
-            Duration = 5
-        })
-
-        local isTPActive = false
-        local userInputService = game:GetService("UserInputService")
-        local player = game.Players.LocalPlayer
-
-        userInputService.InputBegan:Connect(function(input, processed)
-            if processed then return end
-            if input.KeyCode == Enum.KeyCode.T then
-                isTPActive = true
-                local character = player.Character or player.CharacterAdded:Wait()
-
-                while isTPActive and character do
-                    character:PivotTo(character:GetPivot() + workspace.CurrentCamera.CFrame.LookVector * Vector3.new(1, 0, 1) * -100)
-                    task.wait(0.2)
-                end
-            end
-        end)
-
-        userInputService.InputEnded:Connect(function(input, processed)
-            if processed then return end
-            if input.KeyCode == Enum.KeyCode.T then
-                isTPActive = false
-            end
-        end)
-    end
-})
-
-Tabs.Main:AddButton({
-    Title = "Check Game Support",
-    Description = "Checks if the game is supported",
-    Callback = function()
-        local gameId = game.PlaceId
-        local gameName = game:GetService("MarketplaceService"):GetProductInfo(gameId).Name
-        local content = gameId == 6884319169 and "The game 'MIC-UP' is supported." or "The game '" .. gameName .. "' may not be fully supported!"
-
-        Fluent:Notify({ Title = "Game Support", Content = content, Duration = 5 })
-    end
-})
-
-Tabs.Main:AddButton({
-    Title = "FaceFuck",
-    Description = "To Activate Press Z",
-    Callback = function()
-        loadstring(game:HttpGet('https://raw.githubusercontent.com/EnterpriseExperience/bruhlolw/refs/heads/main/face_bang_script.lua'))()
-    end
-})
-
-Tabs.Main:AddButton({
-    Title = "Side To Side",
-    Description = "To Activate Press G",
-    Callback = function()
-        getgenv().CloneSettings = {
-            Enabled = false,
-            Bind = "G",
-            Value = 15,
-            Delay = 0.05
-        }
-
-        local userInput = game:GetService("UserInputService")
-        local player = game.Players.LocalPlayer
-
-        userInput.InputBegan:Connect(function(input, processed)
-            if processed then return end
-            if input.KeyCode == Enum.KeyCode[getgenv().CloneSettings.Bind] then
-                getgenv().CloneSettings.Enabled = not getgenv().CloneSettings.Enabled
-            end
-        end)
-
-        while task.wait() do
-            if getgenv().CloneSettings.Enabled then
-                local root = player.Character.HumanoidRootPart
-                local oldCFrame = root.CFrame
-
-                root.CFrame = root.CFrame * CFrame.new(-getgenv().CloneSettings.Value, 0, 0)
-                task.wait(getgenv().CloneSettings.Delay)
-                root.CFrame = oldCFrame
-                task.wait(getgenv().CloneSettings.Delay)
-                root.CFrame = root.CFrame * CFrame.new(getgenv().CloneSettings.Value, 0, 0)
-                task.wait(getgenv().CloneSettings.Delay)
-                root.CFrame = oldCFrame
+Title = "Activate TP Keybind (T)",
+Description = "Hold 'T' to teleport behind you.",
+Callback = function()
+    local isTPActive = false
+    UIS.InputBegan:Connect(function(input, processed)
+        if processed then return end
+        if input.KeyCode == Enum.KeyCode.T then
+            isTPActive = true
+            while isTPActive and character do
+                character:PivotTo(character:GetPivot() + workspace.CurrentCamera.CFrame.LookVector * Vector3.new(1, 0, 1) * -100)
+                task.wait(0.3)
             end
         end
-    end
-})
+    end)
+
+    UIS.InputEnded:Connect(function(input, processed)
+        if processed then return end
+        if input.KeyCode == Enum.KeyCode.T then
+            isTPActive = false
+        end
+    end)
+
+    Send_Notification("Keybind Activated", "Hold 'T' to move/TP backwards.", 6.5)
+end})
 
 Tabs.Main:AddButton({
-    Title = "Masterbate",
-    Description = "Masterbate GUI",
-    Callback = function()
-        loadstring(game:HttpGet("https://pastebin.com/raw/38Jra00x"))()
+Title = "Check Game Support",
+Description = "Checks if the current game is supported",
+Callback = function()
+    local gameId = game.PlaceId
+    local gameName = game:GetService("MarketplaceService"):GetProductInfo(gameId).Name
+    local content = gameId == 6884319169 and "The game 'MIC-UP' is supported." or "The game '" .. gameName .. "' may not be fully supported!"
+
+    Send_Notification("Game Support:", content, 6.5)
+end})
+
+Tabs.Main:AddButton({
+Title = "FaceFuck",
+Description = "To Activate Press Z on somebody.",
+Callback = function()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/EnterpriseExperience/bruhlolw/refs/heads/main/face_bang_script.lua'))()
+end})
+
+Tabs.Main:AddButton({
+Title = "Side To Side",
+Description = "To Activate Press G",
+Callback = function()
+    getgenv().CloneSettings = {
+        Enabled = false,
+        Bind = "G",
+        Value = 15,
+        Delay = 0.06
+    }
+
+    local userInput = game:GetService("UserInputService")
+    local player = game.Players.LocalPlayer
+
+    userInput.InputBegan:Connect(function(input, processed)
+        if processed then return end
+        if input.KeyCode == Enum.KeyCode[getgenv().CloneSettings.Bind] then
+            getgenv().CloneSettings.Enabled = not getgenv().CloneSettings.Enabled
+        end
+    end)
+
+    while task.wait() do
+        if getgenv().CloneSettings.Enabled then
+            local root = player.Character.HumanoidRootPart
+            local oldCFrame = root.CFrame
+
+            root.CFrame = root.CFrame * CFrame.new(-getgenv().CloneSettings.Value, 0, 0)
+            task.wait(getgenv().CloneSettings.Delay)
+            root.CFrame = oldCFrame
+            task.wait(getgenv().CloneSettings.Delay)
+            root.CFrame = root.CFrame * CFrame.new(getgenv().CloneSettings.Value, 0, 0)
+            task.wait(getgenv().CloneSettings.Delay)
+            root.CFrame = oldCFrame
+        end
     end
-})
+end})
+
+Tabs.Main:AddButton({
+Title = "Masterbate/Jerk Off",
+Description = "Masterbate/Jerk Off GUI",
+Callback = function()
+    loadstring(game:HttpGet("https://pastebin.com/raw/38Jra00x"))()
+end})
 
 SaveManager:SetLibrary(Fluent)
 InterfaceManager:SetLibrary(Fluent)
@@ -172,10 +241,6 @@ SaveManager:BuildConfigSection(Tabs.Settings)
 
 Window:SelectTab(1)
 
-Fluent:Notify({
-    Title = "PakeWare",
-    Content = "Press left ctrl to close.",
-    Duration = 8
-})
-
+Send_Notification("PakeWare", "Press LeftCtrl [LeftControl] to toggle.", 8.5)
+wait()
 SaveManager:LoadAutoloadConfig()
